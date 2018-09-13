@@ -30,12 +30,10 @@ public class PhotoAlbumInfoPrinterTest {
     @Test
     public void getAlbumInfoStringFromJsonString() {
         String returned = new PhotoAlbumInfoPrinter().getAlbumInfoStringFromJsonString("[{\"id\": \"testId\", \"title\": \"test_Title\"}, {\"id\": 7, \"title\":\"\"}, {\"id\": null}]");
-        System.out.println(returned);
         Assert.assertTrue(returned.contains("[\"testId\"] \"test_Title\""));
         Assert.assertTrue(returned.contains("[7] \"\""));
         Assert.assertTrue(returned.contains("[null] No title"));
         returned = new PhotoAlbumInfoPrinter().getAlbumInfoStringFromJsonString("[]");
-        System.out.println(returned);
-        Assert.assertEquals(null, returned);
+        Assert.assertNull(returned);
     }
 }
