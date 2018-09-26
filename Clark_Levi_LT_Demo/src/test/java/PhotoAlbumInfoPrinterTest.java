@@ -6,13 +6,7 @@ public class PhotoAlbumInfoPrinterTest {
 
     @Test
     public void printInfoForPhotoAlbumId() {
-        //Test non-allowed album ids
         PhotoAlbumInfoPrinter fakePrinter = spy(PhotoAlbumInfoPrinter.class);
-        fakePrinter.printInfoForPhotoAlbumId("asdf");
-        fakePrinter.printInfoForPhotoAlbumId(null);
-        fakePrinter.printInfoForPhotoAlbumId("-1");
-        fakePrinter.printInfoForPhotoAlbumId("");
-        verify(fakePrinter, times(0)).getAlbumInfoStringFromJsonString(any());
 
         //Test allowed album ids
         doReturn("").when(fakePrinter).getAlbumInfoStringFromJsonString(any());
@@ -35,5 +29,33 @@ public class PhotoAlbumInfoPrinterTest {
         Assert.assertTrue(returned.contains("[null] No title"));
         returned = new PhotoAlbumInfoPrinter().getAlbumInfoStringFromJsonString("[]");
         Assert.assertNull(returned);
+    }
+
+    @Test
+    public void testRejectsNegativeIntegerString(){
+        PhotoAlbumInfoPrinter fakePrinter = spy(PhotoAlbumInfoPrinter.class);
+        fakePrinter.printInfoForPhotoAlbumId("-1");
+        verify(fakePrinter, times(0)).getAlbumInfoStringFromJsonString(any());
+    }
+
+    @Test
+    public void testRejectsNullString(){
+        PhotoAlbumInfoPrinter fakePrinter = spy(PhotoAlbumInfoPrinter.class);
+        fakePrinter.printInfoForPhotoAlbumId(null);
+        verify(fakePrinter, times(0)).getAlbumInfoStringFromJsonString(any());
+    }
+
+    @Test
+    public void testRejectsNonIntegerString(){
+        PhotoAlbumInfoPrinter fakePrinter = spy(PhotoAlbumInfoPrinter.class);
+        fakePrinter.printInfoForPhotoAlbumId("test");
+        verify(fakePrinter, times(0)).getAlbumInfoStringFromJsonString(any());
+    }
+
+    @Test
+    public void testRejectEmptyString(){
+        PhotoAlbumInfoPrinter fakePrinter = spy(PhotoAlbumInfoPrinter.class);
+        fakePrinter.printInfoForPhotoAlbumId("");
+        verify(fakePrinter, times(0)).getAlbumInfoStringFromJsonString(any());
     }
 }
