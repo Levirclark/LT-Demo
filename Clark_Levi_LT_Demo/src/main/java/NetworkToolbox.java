@@ -6,33 +6,32 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class NetworkToolbox {
 
     private String charSet;
 
-    NetworkToolbox(){
+    NetworkToolbox() {
         this.charSet = StandardCharsets.UTF_8.name();
     }
 
-    NetworkToolbox(String charSet){
+    NetworkToolbox(String charSet) {
         this.charSet = charSet;
     }
 
-    String makeNetworkCallForString(String URL, HashMap<String, String> parameterValues){
+    String makeNetworkCallForString(String URL, HashMap<String, String> parameterValues) {
         //Prepare the URL String
         String queryString = buildQueryString(parameterValues);
         String finalURL = URL + "?" + queryString;
         //Prepare the URL Request Connection
         URLConnection requestConnection = connectToURL(finalURL);
-        if(requestConnection == null){
+        if (requestConnection == null) {
             return null;
         }
         //Prepare the URL Request Stream
         InputStream requestResponseStream = getStreamFromConnection(requestConnection);
-        if(requestResponseStream == null){
+        if (requestResponseStream == null) {
             return null;
         }
         //Retrieve the string acquired from the URL
@@ -47,7 +46,7 @@ class NetworkToolbox {
         return responseString;
     }
 
-    URLConnection connectToURL(String url){
+    URLConnection connectToURL(String url) {
         URLConnection requestConnection;
         try {
             requestConnection = new URL(url).openConnection();
@@ -59,7 +58,7 @@ class NetworkToolbox {
         return requestConnection;
     }
 
-    private InputStream getStreamFromConnection(URLConnection urlConnection){
+    private InputStream getStreamFromConnection(URLConnection urlConnection) {
         InputStream requestResponseStream;
         try {
             requestResponseStream = urlConnection.getInputStream();
@@ -70,26 +69,25 @@ class NetworkToolbox {
         return requestResponseStream;
     }
 
-    private String getStringFromRequestStream(InputStream requestResponseStream){
+    private String getStringFromRequestStream(InputStream requestResponseStream) {
         Scanner requestResponseScanner = new Scanner(requestResponseStream);
-        try{
+        try {
             String responseString = requestResponseScanner.useDelimiter("\\A").next();
             requestResponseScanner.close();
             return responseString;
-        }
-        catch(java.util.NoSuchElementException e){
+        } catch (java.util.NoSuchElementException e) {
             System.out.println("The data received from the web request was empty");
             return null;
         }
     }
 
-    String buildQueryString(HashMap<String, String> parameterValues){
-        if(parameterValues == null){
+    String buildQueryString(HashMap<String, String> parameterValues) {
+        if (parameterValues == null) {
             return "";
         }
         StringBuilder returnValue = new StringBuilder();
-        for(String key : parameterValues.keySet()){
-            if(returnValue.length() > 0){
+        for (String key : parameterValues.keySet()) {
+            if (returnValue.length() > 0) {
                 returnValue.append("&");
             }
             try {

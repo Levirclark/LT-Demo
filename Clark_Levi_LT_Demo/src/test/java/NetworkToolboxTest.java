@@ -1,5 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
+
 import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
@@ -39,9 +40,9 @@ public class NetworkToolboxTest {
         checkQueryStringHasCorrectContents(networkToolbox.buildQueryString(testParameters), testParameters);
     }
 
-    private void checkQueryStringHasCorrectContents(String queryString, HashMap<String, String> parameters){
+    private void checkQueryStringHasCorrectContents(String queryString, HashMap<String, String> parameters) {
         ArrayList<String> parameterValues = new ArrayList<>(Arrays.asList(queryString.split("&")));
-        for(String key : parameters.keySet()){
+        for (String key : parameters.keySet()) {
             Assert.assertTrue(parameterValues.contains(key + "=" + parameters.get(key)));
         }
     }
